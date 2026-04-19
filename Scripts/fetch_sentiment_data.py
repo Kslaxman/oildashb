@@ -28,7 +28,7 @@ import requests
 import warnings
 warnings.filterwarnings("ignore")
 
-# ── Paths ────────────────────────────────────────────────────────────────────
+# ── Paths 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
 DATA_DIR = os.path.join(PROJECT_ROOT, "Data")
@@ -36,7 +36,7 @@ OUTPUT_CSV = os.path.join(DATA_DIR, "sentiment_scores.csv")
 OUTPUT_COUNTRY_JSON = os.path.join(DATA_DIR, "country_sentiment.json")
 MARKET_CSV = os.path.join(DATA_DIR, "raw_market_data.csv")
 
-# ── GDELT API ────────────────────────────────────────────────────────────────
+# ── GDELT API 
 GDELT_DOC_API = "https://api.gdeltproject.org/api/v2/doc/doc"
 
 # Evergreen queries — these naturally capture whatever oil-related events
@@ -123,7 +123,7 @@ COUNTRY_NAME_TO_ISO.update({
     "opec": "SAU",  # Default OPEC mentions to Saudi as leader
 })
 
-# ── Known Geopolitical Events (for historical proxy calibration) ────────────
+# ── Known Geopolitical Events (for historical proxy calibration) 
 # These inject realistic sentiment spikes into the VIX proxy for pre-GDELT dates
 KNOWN_EVENTS = [
     # (start_date, end_date, sentiment_shock, description)
@@ -149,9 +149,7 @@ KNOWN_EVENTS = [
 ]
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
 # GDELT FETCHING (Recent ~3 months — live data)
-# ═══════════════════════════════════════════════════════════════════════════════
 
 def _gdelt_request_with_retry(params, label="", max_retries=3):
     """
@@ -414,9 +412,7 @@ def process_gdelt_results(daily_sentiment, country_data):
     return df_daily, country_json
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
 # HISTORICAL PROXY (2015 → GDELT coverage start)
-# ═══════════════════════════════════════════════════════════════════════════════
 
 def generate_historical_proxy():
     """
@@ -564,10 +560,6 @@ def generate_historical_country_data(df, vix_df):
     return country_json
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# MERGE & SAVE
-# ═══════════════════════════════════════════════════════════════════════════════
-
 def merge_and_save(df_gdelt, df_historical, country_gdelt, country_historical):
     """
     Merge GDELT recent data with historical proxy.
@@ -615,10 +607,6 @@ def merge_and_save(df_gdelt, df_historical, country_gdelt, country_historical):
 
     return df_merged
 
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# MAIN
-# ═══════════════════════════════════════════════════════════════════════════════
 
 def main():
     print("=" * 70)
