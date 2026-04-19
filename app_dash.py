@@ -14,7 +14,6 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from datetime import datetime
 
-# ═══════════════════════════════════════════════════════════════════════════════
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(SCRIPT_DIR, "Data", "raw_market_data.csv")
 SENTIMENT_FILE = os.path.join(SCRIPT_DIR, "Data", "sentiment_scores.csv")
@@ -63,9 +62,7 @@ OIL_COUNTRIES = {
 TEMPLATE = "plotly_white"
 WAR_DT = datetime(2022, 2, 24)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# DATA
-# ═══════════════════════════════════════════════════════════════════════════════
+## DATA
 
 def load_market_data():
     d = pd.read_csv(DATA_FILE, parse_dates=["Date"])
@@ -93,9 +90,8 @@ df = load_market_data()
 sentiment_df = load_sentiment()
 country_raw = load_country_data()
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# GLOBE
-# ═══════════════════════════════════════════════════════════════════════════════
+
+## GLOBE
 
 def build_globe(year_filter=None):
     rows = []
@@ -134,9 +130,7 @@ def build_globe(year_filter=None):
 
 globe_fig = build_globe()
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# BUTTONS (exact Peaky Finders pattern)
-# ═══════════════════════════════════════════════════════════════════════════════
+## BUTTONS
 
 def make_buttons():
     return [
@@ -151,9 +145,7 @@ def make_buttons():
         dcc.Link(html.Button("MODELS", id="btn-models", className="mr-1"), href="/models"),
     ]
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# KPIs
-# ═══════════════════════════════════════════════════════════════════════════════
+## KPIs
 
 def compute_kpis():
     kpis = {}
@@ -183,9 +175,6 @@ def kpi_card(col, is_pred=False):
     return html.Div([html.H6(info["label"]), html.H4(vs),
         html.Small(f"{tag}  {ar} {abs(d):.2f}%", style={"color": cl})], className=cls)
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# HELPERS
-# ═══════════════════════════════════════════════════════════════════════════════
 
 def add_war_line(fig, rows_count=None):
     if rows_count:
@@ -202,9 +191,7 @@ def add_war_line(fig, rows_count=None):
         line=dict(color="#1a1a2e", dash="dot", width=1.5), name="Russia-Ukraine War (Feb 24 2022)"))
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ─── HOME ─────────────────────────────────────────────────────────────────────
-# ═══════════════════════════════════════════════════════════════════════════════
+## HOME
 
 def home_page():
     years = sorted(set(d[:4] for d in country_raw.keys()))
@@ -290,9 +277,7 @@ def home_page():
     ])
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ─── TRENDS ───────────────────────────────────────────────────────────────────
-# ═══════════════════════════════════════════════════════════════════════════════
+## TRENDS
 
 def trends_page():
     return html.Div([
@@ -334,9 +319,7 @@ def trends_page():
     ])
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ─── CROSS-ASSET ──────────────────────────────────────────────────────────────
-# ═══════════════════════════════════════════════════════════════════════════════
+## CROSS-ASSET
 
 def cross_asset_page():
     fig = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.07,
@@ -372,9 +355,7 @@ def cross_asset_page():
         html.Br(), dcc.Graph(figure=fig), html.Br()])
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ─── CORRELATIONS ─────────────────────────────────────────────────────────────
-# ═══════════════════════════════════════════════════════════════════════════════
+## CORRELATIONS
 
 def correlations_page():
     return html.Div([
@@ -394,9 +375,7 @@ def correlations_page():
         dcc.Graph(id="corr-graph"), html.Br()])
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ─── VOLATILITY ───────────────────────────────────────────────────────────────
-# ═══════════════════════════════════════════════════════════════════════════════
+## VOLATILITY
 
 def volatility_page():
     return html.Div([
@@ -417,10 +396,7 @@ def volatility_page():
             value=21, clearable=False), width=6), dbc.Col(width=5)], justify="center"),
         dcc.Graph(id="vol-graph"), html.Br()])
 
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# ─── SENTIMENT ────────────────────────────────────────────────────────────────
-# ═══════════════════════════════════════════════════════════════════════════════
+## SENTIMENT
 
 def sentiment_page():
     if sentiment_df is None:
@@ -484,9 +460,7 @@ def sentiment_page():
         html.Br(), dcc.Graph(figure=fig), html.Br()])
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ─── FORECAST ─────────────────────────────────────────────────────────────────
-# ═══════════════════════════════════════════════════════════════════════════════
+## FORECAST
 
 def forecast_page():
     return html.Div([
@@ -524,9 +498,7 @@ def forecast_page():
         dcc.Graph(id="fwd-graph"), html.Br()])
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ─── DOCS (with actual results from MATLAB) ──────────────────────────────────
-# ═══════════════════════════════════════════════════════════════════════════════
+## DOCS
 
 def _doc(title, desc, code, results=None):
     """Section with code block + optional results block."""
@@ -710,9 +682,7 @@ def docs_page():
     ])
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ─── MODELS (detailed observations) ──────────────────────────────────────────
-# ═══════════════════════════════════════════════════════════════════════════════
+## MODELS
 
 def models_page():
     return html.Div([
@@ -834,18 +804,12 @@ def models_page():
         html.Br(), html.Br()])
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# DASH APP
-# ═══════════════════════════════════════════════════════════════════════════════
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.LUX],
     suppress_callback_exceptions=True, title="Global Oil Shock Transmission")
 server = app.server
 app.layout = html.Div([dcc.Location(id="url", refresh=False), html.Div(id="page-content")])
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# CALLBACKS
-# ═══════════════════════════════════════════════════════════════════════════════
 
 @app.callback(Output("page-content","children"), Input("url","pathname"))
 def display_page(p):
@@ -1004,8 +968,6 @@ def update_forecast(train_pct, ema_span, n_fwd):
         title="Forward Extrapolation with 95% CI")
     return metrics, fig_ema, fig_fwd
 
-
-# ═══════════════════════════════════════════════════════════════════════════════
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=8050)
