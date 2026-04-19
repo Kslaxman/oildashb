@@ -1,11 +1,4 @@
-/* ──────────────────────────────────────────────────
-   Peaky Finders Exact Styling
-   Base: Bootswatch LUX theme
-   Keep minimal — LUX handles most styling
-   ────────────────────────────────────────────────── */
 
-/* Button —  Peaky Finders uses DEFAULT browser button
-   rendered by LUX theme. NO hover color change.  */
 button {
     font-size: 0.75rem;
     padding: 4px 10px;
@@ -22,7 +15,6 @@ button {
     margin-bottom: 4px;
 }
 
-/* NO change on hover — matches Peaky Finders exactly */
 button:hover {
     background-color: #f9f9f9;
     color: black;
