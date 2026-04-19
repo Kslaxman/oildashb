@@ -204,7 +204,7 @@ def home_page():
                 html.A(
                     html.Img(src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png", 
                              style={"height": "40px", "float": "right", "opacity": "0.8"}),
-                    href="https://github.com/Kslaxman",
+                    href="https://github.com/Kslaxman/oildashb",
                     target="_blank"
                 ), width=5
             )
